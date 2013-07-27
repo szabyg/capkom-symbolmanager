@@ -1,0 +1,7 @@
+
+<div data-ng-controller="sitesCtrl">
+    <ul>
+        <li data-ng-repeat="site in sites"><a href="#/site/{{site.name}}">Edit {{site.name}}</a> (go to <a href="{{site.url}}">{{site.name}}</a>)</li>
+    </ul>
+    <button type="button" class="btn" bs-popover="'partials/siteform.html'" data-placement="bottom">Create site</button>
+</div>

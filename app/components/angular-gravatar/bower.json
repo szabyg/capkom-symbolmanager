@@ -1,0 +1,26 @@
+{
+  "name": "angular-gravatar",
+  "version": "0.1.0",
+  "description": "Angular.JS directive for gravatar images",
+  "author": {
+    "name": "Sebastian Wallin"
+  },
+  "license": "MIT",
+  "homepage": "http://github.com/wallin/angular-gravatar",
+  "main": "./build/angular-gravatar.js",
+  "ignore": [],
+  "dependencies": {
+    "angular": "~1.x"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.0.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wallin/angular-gravatar.git"
+  },
+  "gitHead": "f313dd6287fb38fb518c6dfea844a7178acdbd72",
+  "readme": "angular-gravatar\n==============\n\nAngular.JS directive for [Gravatar](http://www.gravatar.com).\n\nCopyright (C) 2013, Sebastian Wallin <sebastian.wallin@gmail.com>\n\nUsage\n-----\nInclude both md5.js and angular-gravatar.js in your application.\n\n```html\n<script src=\"components/angular-gravatar/src/md5.js\"></script>\n<script src=\"components/angular-gravatar/build/angular-gravatar.js\"></script>\n```\n\nAdd the module `ui.gravatar` as a dependency to your app:\n\n```js\nvar app = angular.module('app', ['ui.gravatar']);\n```\n\nThen use the directive on an image tag and it will set the correct `src`\nattribute for you.\n\n```html\n<img gravatar-src=\"sebastian.wallin@gmail.com\" gravatar-size=\"100\">\n```\n\nConfiguration\n-----\n\nThe options that are sent along to Gravatar can be set either\ndirectly in the directive as seen above with `size` or configured as default\nparameters via the `gravatarServiceProvider`:\n\n```js\nangular.module('ui.gravatar').config([\n  'gravatarServiceProvider',\n  (gravatarServiceProvider) ->\n    gravatarServiceProvider.defaults = {\n      size: 100,\n      default: 'mm'  // Mystery man as default for missing avatars\n    }\n])\n```\n\nAll the available options can be seen over at the [Gravatar docs for image\nrequests](https://sv.gravatar.com/site/implement/images/)\n\n\n",
+  "readmeFilename": "README.md",
+  "_id": "angular-gravatar@0.1.0"
+}

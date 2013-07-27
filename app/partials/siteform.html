@@ -1,0 +1,15 @@
+<form data-ng-submit="createSite(site)">
+    <div data-ng-show="error" class="alert alert-error">{{error}}</div>
+    <div data-ng-show="info" class="alert alert-success">{{info}}</div>
+    <table>
+        <tr>
+            <td>Site name:</td>
+            <td><input type="text" data-ng-model="site.name"/></td>
+        </tr>
+        <tr>
+            <td>Site address:</td>
+            <td><input type="text" data-ng-model="site.url"/></td>
+        </tr>
+    </table>
+    <button type="submit" class="btn btn-primary"><i class="icon-plussign"></i> Create</button>
+</form>

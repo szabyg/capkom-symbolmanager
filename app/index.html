@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:ng="http://angularjs.org"
+      lang="en" ng-app="symbolmanagerApp">
+<head>
+    <meta charset="utf-8">
+    <title>My AngularJS App</title>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="components/components-bootstrap/css/bootstrap.css"/>
+</head>
+<body>
+<div class="container row">
+
+    <header class="span12">
+        <div class="logo"><a href="#">Home</a></div>
+        <div class="user">
+            <div data-ng-show="auth.loggedInUser">
+                Welcome, <img data-gravatar-src="auth.loggedInUser.email" gravatar-size="26" /> {{auth.loggedInUser.displayname}}!
+                <span data-ng-click="auth.logout()">Logout</span>
+            </div>
+            <button data-ng-hide="auth.loggedInUser" type="button" class="btn" bs-popover="'partials/loginform.html'" data-ng-controller="loginCtrl" data-placement="bottom">Login</button>
+        </div>
+    </header>
+    <ul class="menu row span12">
+        <li><a href="#/view1">view1</a></li>
+        <li><a href="#/view2">view2</a></li>
+    </ul>
+
+    <div class="row span12">
+        <div data-ng-show="errorMsg" class="alert alert-error">{{errorMsg}}</div>
+        <div data-ng-show="infoMsg" class="alert alert-success">{{infoMsg}}</div>
+    </div>
+
+    <div class="row span12" ng-view></div>
+
+    <div class="row span12">Capkom-Symbolmanager app: v<span app-version></span></div>
+</div>
+
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+-->
+<script src="components/jquery/jquery.min.js"></script>
+<script src="components/components-bootstrap/js/bootstrap.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/CornerCouch/angular-cornercouch.js"></script>
+<script src="components/angular-strap/dist/angular-strap.js"></script>
+<script src="components/angular-gravatar/src/md5.js"></script>
+<script src="components/angular-gravatar/build/angular-gravatar.js"></script>
+<script src="js/app.js"></script>
+<script src="js/backend.js"></script>
+<script src="js/users.js"></script>
+<script src="js/sites.js"></script>
+<script src="js/services.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/directives.js"></script>
+</body>
+</html>

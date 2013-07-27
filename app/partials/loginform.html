@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <button type="button" class="close" data-ng-click="hide()" aria-hidden="true">×</button>
+    <h3>Modal header</h3>
+</div>
+<div class="modal-body">
+    <div data-ng-show="errorMsg" class="alert alert-error">{{errorMsg}}</div>
+    <div data-ng-show="infoMsg" class="alert alert-success">{{infoMsg}}</div>
+    <form ng-submit="login(loginform)">
+        Login: <input type="text" data-ng-model="loginform.name">
+        Password: <input type="password" data-ng-model="loginform.password">
+        <div class="form-actions">
+            <input class="btn btn-primary" type="submit" value="Log in"/>
+            <a class="btn" href="#/register" data-ng-click="hide()">Register</a>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+</div>

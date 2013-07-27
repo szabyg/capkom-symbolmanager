@@ -1,0 +1,27 @@
+<form data-ng-submit="register(user)">
+    <div data-ng-show="errorMsg" class="alert alert-error">{{errorMsg}}</div>
+    <div data-ng-show="infoMsg" class="alert alert-success">{{infoMsg}}</div>
+    <table>
+        <tr>
+            <td>Display name:</td>
+            <td><input type="text" data-ng-model="user.displayname" name="displayName"/></td>
+        </tr>
+        <tr>
+            <td>Name: </td>
+            <td><input type="text" data-ng-model="user.name" name="name"/></td>
+        </tr>
+        <tr>
+            <td>email:</td>
+            <td><input type="text" data-ng-model="user.email" name="email"/></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" data-ng-model="user.password" name="password"/></td>
+        </tr>
+        <tr>
+            <td>Repeat password:</td>
+            <td><input type="password" data-ng-model="user.repeatPassword"/></td>
+        </tr>
+    </table>
+    <input type="submit" class="btn btn-primary" value="Register"/>
+</form>
