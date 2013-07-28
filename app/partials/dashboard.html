@@ -1,7 +1,15 @@
 
-<div data-ng-controller="sitesCtrl">
+<div data-ng-controller="sitesCtrl" data-ng-show="auth.loggedInUser">
+    <div data-ng-show="error" class="alert alert-error">{{error}}</div>
+    <div data-ng-show="info" class="alert alert-success">{{info}}</div>
+
     <ul>
-        <li data-ng-repeat="site in sites"><a href="#/site/{{site.name}}">Edit {{site.name}}</a> (go to <a href="{{site.url}}">{{site.name}}</a>)</li>
+        <li data-ng-repeat="site in sites">
+            <a href="#/site/{{site._id}}">
+                Edit {{site.name}}
+            </a>
+            (go to <a href="{{site.url}}">{{site.name}}</a> or <a data-ng-click="removeSite(site)">remove it</a> )
+        </li>
     </ul>
-    <button type="button" class="btn" bs-popover="'partials/siteform.html'" data-placement="bottom">Create site</button>
+    <a class="btn" href="#/createSite">Create site</a>
 </div>

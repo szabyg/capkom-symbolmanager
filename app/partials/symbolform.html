@@ -1,14 +1,15 @@
-<form data-ng-submit="saveSite(site)">
+<h1>Create new symbol in {{site.name}}</h1>
+<form data-ng-submit="saveSymbol(symbol)">
     <div data-ng-show="error" class="alert alert-error">{{error}}</div>
     <div data-ng-show="info" class="alert alert-success">{{info}}</div>
     <table>
         <tr>
-            <td>Site name:</td>
-            <td><input type="text" data-ng-model="site.name"/></td>
+            <td>Symbol name:</td>
+            <td><input type="text" data-ng-model="symbol.name"/></td>
         </tr>
         <tr>
-            <td>Site address:</td>
-            <td><input type="text" data-ng-model="site.url"/></td>
+            <td>Symbol description:</td>
+            <td><input type="text" data-ng-model="symbol.description"/></td>
         </tr>
     </table>
     <button type="submit" class="btn btn-primary">

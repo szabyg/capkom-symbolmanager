@@ -6,8 +6,8 @@
     <div data-ng-show="errorMsg" class="alert alert-error">{{errorMsg}}</div>
     <div data-ng-show="infoMsg" class="alert alert-success">{{infoMsg}}</div>
     <form ng-submit="login(loginform)">
-        Login: <input type="text" data-ng-model="loginform.name">
-        Password: <input type="password" data-ng-model="loginform.password">
+        Login: <input type="text" data-ng-model="loginform.name" name="username">
+        Password: <input type="password" data-ng-model="loginform.password" name="password">
         <div class="form-actions">
             <input class="btn btn-primary" type="submit" value="Log in"/>
             <a class="btn" href="#/register" data-ng-click="hide()">Register</a>

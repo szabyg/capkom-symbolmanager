@@ -1,6 +1,24 @@
 // User management module
 var users = angular.module('users', []);
-
+users.run(['$rootScope', 'auth', 'server', function($scope, auth, server){
+    /*
+    server.session();
+    $scope.$watch('server.userCtx', function(){
+        if($scope.server.userCtx.name !== null){
+            auth.loggedInUser = $scope.server.userCtx;
+        } else {
+            auth.authenticate({
+                name: 'szaby',
+                password: 'asdf'
+            },function(){
+                console.info('demo-logged in');
+            }, function(err){
+                console.error('demo-login error', err);
+            });
+        }
+    });
+    */
+}]);
 // auth provides loggedInUser, login, logout, register.
 users.factory('auth', ['server', function(server){
     var auth = {
@@ -12,19 +30,7 @@ users.factory('auth', ['server', function(server){
                     success()
                 })
                 .error(error);
-
-            /*
-             var correct = Users[user.name] && Users[user.name].password === user.password;
-             if(correct){
-             this.loggedInUser = Users[user.name];
-             return true;
-             } else {
-             this.loggedInUser = null;
-             return false;
-             }
-             */
         },
-        // loggedInUser: Users.szaby,
         logout: function() {
             server.logout();
             delete this.loggedInUser;
@@ -44,10 +50,21 @@ users.factory('auth', ['server', function(server){
         }
     };
     server.session().success(function(){
-        server.getUserDoc(function(){
-                console.info('userDoc loaded', server.userDoc);
-                auth.loggedInUser = server.userDoc;
+        server.getUserDoc();
+        if(server.userCtx.name !== null){
+            auth.loggedInUser = server.userDoc;
+        } else {
+            // Test phase: Log in automatically
+            auth.authenticate({
+                name: 'szaby',
+                password: 'asdf'
+            },function(){
+                console.info('demo-logged in');
+            }, function(err){
+                console.error('demo-login error', err);
             });
+
+        }
     });
     server.getUserDB();
     return auth;
@@ -66,11 +83,6 @@ users.controller('loginCtrl', ['$scope', 'auth', function($scope, auth){
 
 // Controller for the register form
 users.controller('registerCtrl', ['$scope', '$location', 'auth', function($scope, $location, auth){
-    $scope.server.session().success(function(){
-        if($scope.server.userCtx.name !== null){
-            auth.loggedInUser = $scope.server.userCtx;
-        }
-    });
     $scope.register = function(user){
         $scope.error = $scope.info = '';
         if(user.password === user.repeatPassword){

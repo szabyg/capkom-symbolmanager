@@ -9,6 +9,8 @@ mainApp.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard.html'});
     $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'registerCtrl'});
     $routeProvider.when('/site/:siteId', {templateUrl: 'partials/site.html', controller: 'sitesCtrl'});
+    $routeProvider.when('/site/:siteId/createSymbol', {templateUrl: 'partials/symbolform.html', controller: 'sitesCtrl'});
+    $routeProvider.when('/createSite', {templateUrl: 'partials/siteform.html', controller: 'sitesCtrl'});
 }]);
 
 // Initialize global scope

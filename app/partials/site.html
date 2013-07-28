@@ -1,0 +1,10 @@
+<h1>Edit {{site.name}}</h1>
+<div data-ng-include="'partials/siteform.html'"></div>
+<h2>Symbols:</h2>
+<ul>
+    <li data-ng-repeat="symbol in site.symbols">
+        <strong>{{symbol.name}}</strong>:
+        {{symbol.description}}
+    </li>
+    <a class="btn" href="#/site/{{site._id}}/createSymbol">Create symbol</a>
+</ul>

@@ -6,6 +6,7 @@
     <title>My AngularJS App</title>
     <link rel="stylesheet" href="css/app.css"/>
     <link rel="stylesheet" href="components/components-bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="components/font-awesome/css/font-awesome.css"/>
 </head>
 <body>
 <div class="container row">
@@ -17,7 +18,10 @@
                 Welcome, <img data-gravatar-src="auth.loggedInUser.email" gravatar-size="26" /> {{auth.loggedInUser.displayname}}!
                 <span data-ng-click="auth.logout()">Logout</span>
             </div>
-            <button data-ng-hide="auth.loggedInUser" type="button" class="btn" bs-popover="'partials/loginform.html'" data-ng-controller="loginCtrl" data-placement="bottom">Login</button>
+            <div data-ng-hide="auth.loggedInUser">
+                <button type="button" class="btn" bs-popover="'partials/loginform.html'" data-ng-controller="loginCtrl" data-placement="bottom">Login</button>
+                <a class="btn" href="#/register" data-ng-click="hide()">Register</a>
+            </div>
         </div>
     </header>
     <ul class="menu row span12">
@@ -39,6 +43,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
 -->
 <script src="components/jquery/jquery.min.js"></script>
+<script src="components/underscore/underscore-min.js"></script>
 <script src="components/components-bootstrap/js/bootstrap.js"></script>
 <script src="lib/angular/angular.js"></script>
 <script src="lib/CornerCouch/angular-cornercouch.js"></script>
