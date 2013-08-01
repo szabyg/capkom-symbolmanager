@@ -2,11 +2,11 @@
 /* Header */
 header .logo {
     float: left;
+    padding: 10px;
 }
 header .user {
     float: right;
 }
-
 
 /* Main content area */
 
@@ -39,3 +39,12 @@ header .user {
   padding: 0;
 }
 
+/* General */
+
+.red {
+    color: red;
+}
+
+.blue {
+    color: blue;
+}

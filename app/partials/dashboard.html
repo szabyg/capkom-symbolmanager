@@ -1,15 +1,15 @@
-
-<div data-ng-controller="sitesCtrl" data-ng-show="auth.loggedInUser">
+<div data-ng-show="auth.loggedInUser.name">
     <div data-ng-show="error" class="alert alert-error">{{error}}</div>
     <div data-ng-show="info" class="alert alert-success">{{info}}</div>
 
-    <ul>
-        <li data-ng-repeat="site in sites">
-            <a href="#/site/{{site._id}}">
-                Edit {{site.name}}
-            </a>
-            (go to <a href="{{site.url}}">{{site.name}}</a> or <a data-ng-click="removeSite(site)">remove it</a> )
-        </li>
-    </ul>
+    <h1><i class="icon-home icon-large"></i> Hello {{auth.loggedInUser.displayname}}!</h1>
+    <p>You are admin of the following sites in the symbolmanager:</p>
+    <div data-ng-include="'partials/sitelist.html'"></div>
+
     <a class="btn" href="#/createSite">Create site</a>
+    <a class="btn" href="#/createCustomSite">Create custom site</a>
+</div>
+<div data-ng-hide="auth.loggedInUser.name">
+    <h1>CapKom symbol manager application</h1>
+    <p>Register or log in to see your symbol sets.</p>
 </div>

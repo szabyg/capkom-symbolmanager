@@ -1,0 +1,8 @@
+<div data-ng-controller="symbolCtrl">
+    <div class="thumbnail" data-ng-repeat="symbol in symbols">
+        <i class="icon-edit blue" title="Edit" data-ng-click="editSymbol(symbol._id)"></i>
+        <i class="icon-trash red" title="Remove" data-ng-click="delete(symbol)"></i>
+        <strong>{{symbol.name}}</strong>:
+        {{symbol.description}}
+    </div>
+</div>

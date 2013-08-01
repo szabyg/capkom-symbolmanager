@@ -1,6 +1,6 @@
 <!doctype html>
 <html xmlns:ng="http://angularjs.org"
-      lang="en" ng-app="symbolmanagerApp">
+      lang="en">
 <head>
     <meta charset="utf-8">
     <title>My AngularJS App</title>
@@ -8,35 +8,37 @@
     <link rel="stylesheet" href="components/components-bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="components/font-awesome/css/font-awesome.css"/>
 </head>
-<body>
+<body ng-app="symbolmanagerApp" data-ng-controller="mainCtrl">
 <div class="container row">
 
     <header class="span12">
-        <div class="logo"><a href="#">Home</a></div>
+        <div class="logo"><a href="#"><img src="img/capkom_logo.gif" style="width: 40%;" /> </a></div>
         <div class="user">
-            <div data-ng-show="auth.loggedInUser">
+            <div data-ng-show="auth.loggedInUser.name">
                 Welcome, <img data-gravatar-src="auth.loggedInUser.email" gravatar-size="26" /> {{auth.loggedInUser.displayname}}!
                 <span data-ng-click="auth.logout()">Logout</span>
             </div>
-            <div data-ng-hide="auth.loggedInUser">
+            <div data-ng-hide="auth.loggedInUser.name">
                 <button type="button" class="btn" bs-popover="'partials/loginform.html'" data-ng-controller="loginCtrl" data-placement="bottom">Login</button>
                 <a class="btn" href="#/register" data-ng-click="hide()">Register</a>
             </div>
         </div>
     </header>
-    <ul class="menu row span12">
-        <li><a href="#/view1">view1</a></li>
-        <li><a href="#/view2">view2</a></li>
-    </ul>
+    <!--<ul class="menu row span12">-->
+        <!--<li><a href="#/view1">view1</a></li>-->
+        <!--<li><a href="#/view2">view2</a></li>-->
+    <!--</ul>-->
 
     <div class="row span12">
-        <div data-ng-show="errorMsg" class="alert alert-error">{{errorMsg}}</div>
-        <div data-ng-show="infoMsg" class="alert alert-success">{{infoMsg}}</div>
+        <div data-ng-show="error" class="alert alert-error">{{error}}</div>
+        <div data-ng-show="info" class="alert alert-success">{{info}}</div>
     </div>
 
     <div class="row span12" ng-view></div>
 
-    <div class="row span12">Capkom-Symbolmanager app: v<span app-version></span></div>
+    <footer class="row span12">
+        <p>Capkom-Symbolmanager app: v<span app-version></span></p>
+    </footer>
 </div>
 
 <!-- In production use:
@@ -45,18 +47,20 @@
 <script src="components/jquery/jquery.min.js"></script>
 <script src="components/underscore/underscore-min.js"></script>
 <script src="components/components-bootstrap/js/bootstrap.js"></script>
-<script src="lib/angular/angular.js"></script>
+
+<script src="components/angular/angular.js"></script>
 <script src="lib/CornerCouch/angular-cornercouch.js"></script>
 <script src="components/angular-strap/dist/angular-strap.js"></script>
 <script src="components/angular-gravatar/src/md5.js"></script>
 <script src="components/angular-gravatar/build/angular-gravatar.js"></script>
+
 <script src="js/app.js"></script>
 <script src="js/backend.js"></script>
 <script src="js/users.js"></script>
 <script src="js/sites.js"></script>
-<script src="js/services.js"></script>
-<script src="js/controllers.js"></script>
-<script src="js/filters.js"></script>
+<script src="js/customsite.js"></script>
+<script src="js/symbols.js"></script>
+<script src="js/utils.js"></script>
 <script src="js/directives.js"></script>
 </body>
 </html>

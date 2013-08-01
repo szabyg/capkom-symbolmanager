@@ -1,0 +1,8 @@
+<div class="col-lg-3" data-ng-controller="sitesCtrl">
+    <div class="thumbnail" data-ng-repeat="site in sites">
+        <i class="icon-edit blue" title="Edit" data-ng-click="editSite(site)"></i>
+        <i class="icon-trash red" title="Delete" data-ng-click="deleteSite(site)"></i>
+        <strong>{{site.name}}</strong>
+        (go to <a href="{{site.url}}">{{site.name}}</a>)
+    </div>
+</div>

@@ -2,9 +2,9 @@
     <button type="button" class="close" data-ng-click="hide()" aria-hidden="true">×</button>
     <h3>Modal header</h3>
 </div>
-<div class="modal-body">
-    <div data-ng-show="errorMsg" class="alert alert-error">{{errorMsg}}</div>
-    <div data-ng-show="infoMsg" class="alert alert-success">{{infoMsg}}</div>
+<div class="modal-body" data-ng-controller="loginCtrl">
+    <div data-ng-show="error" class="alert alert-error">{{error}}</div>
+    <div data-ng-show="info" class="alert alert-success">{{info}}</div>
     <form ng-submit="login(loginform)">
         Login: <input type="text" data-ng-model="loginform.name" name="username">
         Password: <input type="password" data-ng-model="loginform.password" name="password">

@@ -1,6 +1,6 @@
 // The backend module sets up the communication facilities to the back end using CornerCouch.
 
-var backend = angular.module('backend', ['CornerCouch', 'users']);
+var backend = angular.module('Backend', ['CornerCouch', 'Users']);
 
 // server is the couchdb server
 backend.factory('server', ['cornercouch', function(cornercouch){

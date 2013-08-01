@@ -1,7 +1,9 @@
-<h1>Create new symbol in {{site.name}}</h1>
+<h1>
+    <i class="icon-picture icon-large"></i>
+    <span data-ng-hide="symbol._id">Create new symbol in <a href="#/site/{{site._id}}">{{site.name}}</a></span>
+    <span data-ng-show="symbol._id">Edit {{symbol.name}} in <a href="#/site/{{site._id}}">{{site.name}}</a></span>
+</h1>
 <form data-ng-submit="saveSymbol(symbol)">
-    <div data-ng-show="error" class="alert alert-error">{{error}}</div>
-    <div data-ng-show="info" class="alert alert-success">{{info}}</div>
     <table>
         <tr>
             <td>Symbol name:</td>
@@ -13,7 +15,15 @@
         </tr>
     </table>
     <button type="submit" class="btn btn-primary">
-        <span data-ng-show="site._id"><i class="icon-save"></i> Save</span>
-        <span data-ng-hide="site._id"><i class="icon-plus"></i> Create</span>
+        <span data-ng-show="symbol._id"><i class="icon-save"></i> Save</span>
+        <span data-ng-hide="symbol._id"><i class="icon-plus"></i> Create</span>
+    </button>
+    <button class="btn btn-danger" type="button" data-ng-show="symbol._id" data-ng-click="delete(symbol)">
+        <i class="icon-trash"></i> Delete
     </button>
 </form>
+
+<div data-ng-show="site">
+    <h2 data-ng-show="'site.symbols.length'">Symbols:</h2>
+    <div data-ng-include="'partials/symbollist.html'"></div>
+</div>

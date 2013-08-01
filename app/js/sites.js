@@ -1,25 +1,28 @@
 // A site is a website consisting of a url, name and an array of symbols.
 
-var sites = angular.module('sites', ['backend']);
+var sites = angular.module('Sites', ['Backend', 'Utils']);
 
-sites.factory('sitesProvider', ['db', 'auth', function(db, auth){
+sites.factory('siteProvider', ['$q', 'db', 'auth', function($q, db, auth){
+    var symbolHash = {}, sites = {};
     return {
-        createSite: function(site, success){
+        createSite: function(site){
             var doc = db.newDoc({
                 type: 'site',
                 symbols: []
             });
             return doc;
         },
-        getSites: function(success, error){
+        getSites: function(){
+            var deferred = $q.defer();
             db.query('default', 'sites', {include_docs: false, key: auth.loggedInUser.name})
                 .success(function(res){
-                    success(_.map(res.rows, function(row, idx){
+                    deferred.resolve(_.map(res.rows, function(row, idx){
                         return db.getQueryDoc(idx);
                     }));
                 })
                 .error(function(err){
-                    error(err);
+                    deferred.reject(err);
+                    /*
                     var res = [
                         {
                             url: 'http://capkom.salzburgresearch.at',
@@ -33,67 +36,98 @@ sites.factory('sitesProvider', ['db', 'auth', function(db, auth){
                         }
 
                     ];
-                    success(res);
+                    deferred.resolve(res);
+                    */
                 });
-
+            return deferred.promise;
             // db.queryAll().success(success);
+        },
+        getSite: function(siteId){
+            var deferred = $q.defer();
+            var site = db.newDoc(), res;
+
+            site.load(siteId).success(function(){
+                deferred.resolve(site);
+            }).error(function(err){
+                    deferred.reject(err.reason);
+            });
+            return deferred.promise;
         }
     }
 }]);
 
-sites.controller('sitesCtrl', ['$scope', 'sitesProvider', 'db', '$location', '$routeParams', function($scope, sitesProvider, db, $location, $routeParams){
-    $scope.error = $scope.info = '';
-    $scope.newSite = sitesProvider.createSite();
+//sites.factory('currentSite', ['db', 'auth', 'siteProvider', function(db, auth, siteProvider){
+//
+//}]);
+
+sites.controller('sitesCtrl',
+    ['$scope', 'siteProvider', 'symbolProvider', '$location', '$routeParams', 'utils', '$log',
+        function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $log){
+    $scope.newSite = siteProvider.createSite();
 
     if($routeParams.siteId){
-        $scope.site = db.newDoc();
-        $scope.site.load($routeParams.siteId);
+        siteProvider.getSite($routeParams.siteId).then(function(site){
+            $scope.site = site;
+            $scope.symbols = symbolProvider.getSymbols($scope.site.symbols);
+        });
+    } else {
+
     }
 
-    $scope.refresh = function(){
-        sitesProvider.getSites(function(res){
-            $scope.sites = res;
-            console.info('sites', res);
-        });
+    $scope.editSite = function(site){
+        $location.path('/site/' + site._id);
     };
-    $scope.saveSite = function(site){
-        for(var prop in site){
-            $scope.newSite[prop] = site[prop];
+    $scope.deleteSite = function(site){
+        if(confirm('Are you sure?')){
+            site.remove().success(function(){
+                $scope.infoMsg($scope, 'Site successfully removed');
+                $location.path('/');
+            });
         }
-        $scope.newSite.creator = $scope.auth.loggedInUser.name;
-        $scope.newSite.creationTime = Date();
-        console.info($scope.newSite);
+    }
+
+    $scope.saveSite = function(site){
+        $scope.newSite = _.extend($scope.newSite, site, {
+            creator: $scope.auth.loggedInUser.name,
+            creationTime: Date()
+        });
+        $log.info($scope.newSite);
         $scope.newSite.save().success(function(){
-            console.info('success');
-            for(var prop in site){site[prop] = '';}
+            $log.info('success');
+            utils.clean(site);
             $location.path('');
         });
     };
     $scope.$watch('auth.loggedInUser.name', function(){
         if($scope.auth.loggedInUser && $scope.auth.loggedInUser.name){
-            $scope.refresh();
+            if(!$routeParams.siteId){
+                siteProvider.getSites().then(function(res){
+                    $scope.sites = res;
+                    $log.info('sites', res);
+                });
+            }
         } else {
-            $scope.sites = null;
+            if($scope.sites){
+                delete $scope.sites;
+                $location.path('/');
+            }
         }
     });
     $scope.removeSite = function(site){
-        console.info('remove', site);
+        $log.info('remove', site);
         var answer = confirm('Are you sure you would like to remove the entire site settings?');
         if(answer){
             site.remove()
                 .success(function(){
                     $scope.sites = _($scope.sites).without(site);
-                    $scope.info = 'Successfully deleted ' + site.name;
+                    $scope.infoMsg($scope, 'Successfully deleted ' + site.name);
                 }).error(function(err){
                     $scope.error = err.reason;
                 })
         }
     };
-
-    $scope.newSymbol = db.newDoc({
-        site: $scope.site._id
-    });
-    $scope.saveSymbol = function(symbol){
-        console.info('To be implemented next: Save symbol', symbol);
+    $scope.editSymbol = function(symbolId){
+        $location.path('/site/' + $routeParams.siteId + '/symbol/' + symbolId);
     }
+
 }]);
