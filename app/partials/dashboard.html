@@ -4,14 +4,16 @@
 
     <h1><i class="icon-home icon-large"></i> Hello {{auth.loggedInUser.displayname}}!</h1>
 
-    <p>You are admin of the following sites in the symbolmanager:</p>
-    <div data-ng-include="'partials/sitelist.html'"></div>
-    <a class="btn" href="#/createSite"><i class="icon-plus"></i> Create site</a>
+    <h2>Your customized sites:</h2>
+    <div data-ng-include="'partials/customizedsitelist.html'"></div>
+    <a class="btn" href="#/customSite"><i class="icon-plus"></i> Customize a site</a>
+
     <hr/>
 
-    <p>You have the following sites customized:</p>
-    <div data-ng-include="'partials/customizedsitelist.html'"></div>
-    <a class="btn" href="#/customSite"><i class="icon-search"></i> Customize another site</a>
+    <h2>You are admin of the following sites in the symbolmanager:</h2>
+    <div data-ng-include="'partials/sitelist.html'"></div>
+    <a class="btn" href="#/createSite"><i class="icon-plus"></i> Create site</a>
+
 </div>
 
 <div data-ng-hide="auth.loggedInUser.name" data-ng-include="'partials/info.html'"></div>

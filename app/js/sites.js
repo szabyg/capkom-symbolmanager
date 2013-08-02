@@ -22,36 +22,22 @@ sites.factory('siteProvider', ['$q', 'db', 'auth', function($q, db, auth){
                 })
                 .error(function(err){
                     deferred.reject(err);
-                    /*
-                    var res = [
-                        {
-                            url: 'http://capkom.salzburgresearch.at',
-                            name: 'CapKom wizard',
-                            symbols: ['sym1', 'sym2']
-                        },
-                        {
-                            url: 'http://www.salzburgresearch.at',
-                            name: 'Salzburg Research',
-                            symbols: ['sym3', 'sym4']
-                        }
-
-                    ];
-                    deferred.resolve(res);
-                    */
                 });
             return deferred.promise;
-            // db.queryAll().success(success);
         },
         getSite: function(siteId){
+            return db.getDoc(siteId);
+            /*
             var deferred = $q.defer();
             var site = db.newDoc(), res;
 
             site.load(siteId).success(function(){
                 deferred.resolve(site);
             }).error(function(err){
-                    deferred.reject(err.reason);
+                deferred.reject(err.reason);
             });
             return deferred.promise;
+            */
         }
     }
 }]);

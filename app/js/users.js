@@ -3,7 +3,6 @@ var users = angular.module('Users', ['Backend']);
 
 // auth provides loggedInUser, login, logout, register.
 users.factory('auth', ['$log', 'server', 'defaultCredentials', function($log, server, defaultCredentials){
-    console.info('create auth');
     var auth = {
         authenticate: function(user, success, error){
             auth._userPromise = server.login(user.name, user.password)

@@ -78,14 +78,19 @@ symbols.factory('symbolProvider', ['$q', 'db', '$log', function($q, db, $log){
     var symbolHash = {};
     return {
         getSymbols: function(symbolIds){
+            return db.getDocs(symbolIds);
+            /*
             var res = [], i, id;
             for(i in symbolIds){
                 id = symbolIds[i];
                 res.push(this.getSymbol(id));
             }
             return $q.all(res);
+            */
         },
         getSymbol: function(id) {
+            return db.getDoc(id);
+            /*
             if(!symbolHash[id]){
                 var deferred = $q.defer(), doc = db.newDoc();
                 doc.load(id).success(function(){
@@ -96,6 +101,7 @@ symbols.factory('symbolProvider', ['$q', 'db', '$log', function($q, db, $log){
                 symbolHash[id] = deferred.promise;
             }
             return symbolHash[id];
+            */
         }
     }
 }]);
@@ -104,14 +110,19 @@ symbols.factory('customSymbolProvider', ['$q', 'db', '$log', function($q, db, $l
     var symbolHash = {};
     return {
         getCustomSymbols: function(symbolIds){
+            return db.getDocs(symbolIds);
+            /*
             var res = [], i, id;
             for(i in symbolIds){
                 id = symbolIds[i];
                 res.push(this.getSymbol(id));
             }
             return $q.all(res);
+            */
         },
         getCustomSymbol: function(id) {
+            return db.getDoc(id);
+            /*
             if(!symbolHash[id]){
                 var deferred = $q.defer(), doc = db.newDoc();
                 doc.load(id).success(function(){
@@ -122,6 +133,10 @@ symbols.factory('customSymbolProvider', ['$q', 'db', '$log', function($q, db, $l
                 symbolHash[id] = deferred.promise;
             }
             return symbolHash[id];
+            */
+        },
+        saveCustomSymbol: function(customSymbol){
+            return db.saveDoc(customSymbol);
         }
     };
 }]);

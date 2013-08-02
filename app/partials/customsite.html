@@ -1,3 +1,4 @@
+<!-- customsite.html -->
 <h1>
     <i class="icon-camera icon-large"></i>
     <span data-ng-hide="customSite">Create Customized site</span>
@@ -17,5 +18,29 @@
 
 <div class="customizable-sites" data-ng-show="customSite">
     <h2>{{site.name}} customisation</h2>
+    TODO: use .media elements
+    <table>
 
+        <tr data-ng-repeat="symbol in symbols"
+             data-ng-class="{customized: isCustomized(symbol)}"
+             class="custom-symbol"
+                data-ng-init="customSymbol=getCustomSymbol(symbol)">
+            <td>
+                <strong>{{symbol.name}}</strong>
+                {{symbol.description}}
+            </td>
+            <td>
+                <div>
+                    <div data-ng-init="customSymbol=getCustomSymbol(symbol)" ng-scope>
+                        <button class="btn btn-link" data-ng-click="customize(symbol)">
+                            <i class="icon-edit" data-ng-show="isCustomized(symbol)"></i>
+                            <i class="icon-plus" data-ng-hide="isCustomized(symbol)"></i>
+                            Customize
+                        </button>
+
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>

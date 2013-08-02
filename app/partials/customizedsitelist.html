@@ -1,10 +1,12 @@
 <div data-ng-controller="customSitesCtrl">
-    <div class="thumbnail" data-ng-repeat="site in sites" data-ng-show="isCustomized(site)">
-        <strong>{{site.name}}</strong>
-        (go to <a href="{{site.url}}">{{site.name}}</a>)
-
-        <button class="btn" data-ng-hide="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-plus"></i> Customize</button>
-        <button class="btn" data-ng-show="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-edit"></i> Edit</button>
-
+    <div class="media" data-ng-repeat="site in sites" data-ng-show="isCustomized(site)">
+        <div class="pull-left">
+            <button class="btn btn-link" data-ng-hide="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-plus"></i> Customize</button>
+            <button class="btn btn-link" data-ng-show="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-edit"></i> Edit</button>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{site.name}}</h4>
+            (go to <a href="{{site.url}}">{{site.name}}</a>)
+        </div>
     </div>
 </div>

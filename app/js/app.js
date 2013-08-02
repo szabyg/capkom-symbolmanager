@@ -4,7 +4,7 @@
 var mainApp = angular.module('symbolmanagerApp',
     ['$strap.directives', 'ui.gravatar', 'CornerCouch', 'Backend', 'Users', 'Sites', 'Symbols', 'CustomSite']);
 
-mainApp.value('version', '0.1');
+mainApp.value('version', '0.2');
 
 
 var szaby = {
@@ -62,6 +62,7 @@ function($scope, $location, $timeout, $log, cornercouch, auth, server, db){
           if(scope.hasOwnProperty('error')){
               $timeout.cancel(errorTimeout);
               scope.error = msg;
+              $log.error(msg);
               errorTimeout = $timeout((function(scope){
                   return function(){
                     scope.error = '';

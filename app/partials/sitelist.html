@@ -1,8 +1,19 @@
-<div class="col-lg-3" data-ng-controller="sitesCtrl">
-    <div class="thumbnail" data-ng-repeat="site in sites">
-        <i class="icon-edit blue" title="Edit" data-ng-click="editSite(site)"></i>
-        <i class="icon-trash red" title="Delete" data-ng-click="deleteSite(site)"></i>
-        <strong>{{site.name}}</strong>
-        (go to <a href="{{site.url}}">{{site.name}}</a>)
+<div data-ng-controller="sitesCtrl">
+    <div class="media" data-ng-repeat="site in sites">
+        <div class="pull-left">
+            <button class="btn btn-link" data-ng-click="editSite(site)">
+                <i class="icon-edit"></i>
+                Edit
+            </button>
+            <br/>
+            <button class="btn btn-link btn-danger" data-ng-click="deleteSite(site)">
+                <i class="icon-trash"></i>
+                Delete
+            </button>
+        </div>
+        <div class="media-body">
+            <div class="media-heading">{{site.name}}</div>
+            (go to <a href="{{site.url}}">{{site.name}}</a>)
+        </div>
     </div>
 </div>

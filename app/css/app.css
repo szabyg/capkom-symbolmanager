@@ -48,3 +48,8 @@ header .user {
 .blue {
     color: blue;
 }
+
+.media {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
