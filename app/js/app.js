@@ -19,33 +19,12 @@ var szaby = {
 //mainApp.value('defaultCredentials', szaby);
 mainApp.value('defaultCredentials', panni);
 
-// Configure routes
 mainApp.config(['$routeProvider', function($routeProvider) {
     // Setting up the routes
 
     // default
     $routeProvider.otherwise({redirectTo: '/dashboard'});
-    // Dashboard and authentication
     $routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard.html'});
-    $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'registerCtrl'});
-
-    // Site management
-    $routeProvider.when('/createSite', {templateUrl: 'partials/siteform.html', controller: 'sitesCtrl'});
-    $routeProvider.when('/site/:siteId', {templateUrl: 'partials/site.html', controller: 'sitesCtrl'});
-
-    // Symbol management
-    $routeProvider.when('/site/:siteId/createSymbol', {
-        templateUrl: 'partials/symbolform.html',
-        controller: 'symbolCtrl'
-    });
-    $routeProvider.when('/site/:siteId/symbol/:symbolId', {
-        templateUrl: 'partials/symbolform.html',
-        controller: 'symbolCtrl'
-    });
-
-    $routeProvider.when('/customSite', {templateUrl: 'partials/customsite.html', controller: 'customSiteCtrl'});
-    $routeProvider.when('/customSite/:customsiteId', {templateUrl: 'partials/customsite.html', controller: 'customSiteCtrl'});
-    // Custom symbol management
 }]);
 
 // Initialize global scope

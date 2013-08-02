@@ -3,13 +3,15 @@
     <div data-ng-show="info" class="alert alert-success">{{info}}</div>
 
     <h1><i class="icon-home icon-large"></i> Hello {{auth.loggedInUser.displayname}}!</h1>
+
     <p>You are admin of the following sites in the symbolmanager:</p>
     <div data-ng-include="'partials/sitelist.html'"></div>
+    <a class="btn" href="#/createSite"><i class="icon-plus"></i> Create site</a>
+    <hr/>
 
-    <a class="btn" href="#/createSite">Create site</a>
-    <a class="btn" href="#/customSite">Create custom site</a>
+    <p>You have the following sites customized:</p>
+    <div data-ng-include="'partials/customizedsitelist.html'"></div>
+    <a class="btn" href="#/customSite"><i class="icon-search"></i> Customize another site</a>
 </div>
-<div data-ng-hide="auth.loggedInUser.name">
-    <h1>CapKom symbol manager application</h1>
-    <p>Register or log in to see your symbol sets.</p>
-</div>
+
+<div data-ng-hide="auth.loggedInUser.name" data-ng-include="'partials/info.html'"></div>

@@ -1,37 +1,29 @@
 var customsite = angular.module('CustomSite', ['Backend']);
 
-customsite.controller('customSiteCtrl', ['$scope', '$routeParams', '$log', '$location', 'auth', 'customsiteProvider',
-function($scope, $routeParams, $log, $location, auth, customsiteProvider){
+customsite.controller('customSitesCtrl', ['$scope', '$routeParams', '$log', '$location', 'customsiteProvider',
+function($scope, $routeParams, $log, $location, customsiteProvider){
 
-    $scope._ = 'customSiteCtrl';
+    $scope._ = 'customSitesCtrl';
     $scope.$routeParams = $routeParams;
 
-    $scope.$watch('$routeParams.customsiteId', function(){
-        if($routeParams.customsiteId){
-            customsiteProvider.getCustomSite($routeParams.customsiteId).then(function(customSite){
-                $scope.customSite = customSite;
-                $scope.infoMsg($scope, 'Custom site loaded');
-            }, function(errMsg){
-                $scope.errorMsg(errMsg);
-            });
-        } else {
-            // If this is list mode, load customizable sites
+    var errFn = function(errMsg){$scope.errorMsg($scope, errMsg);};
+
+    // load customizable sites
+    $scope.$watch('auth.loggedInUser.name', function(){
+        if($scope.auth.loggedInUser.name){
             customsiteProvider.loadCustomizableSites().then(function(sites){
-                $scope.sites = sites;
-            }, function(errMsg){
-                $scope.errorMsg(errMsg);
-            });
-            // ... and the ones that are customized
-            customsiteProvider.loadCustomizedSites().then(function(customSites){
-                $scope.customizedSites = {};
-                _.each(customSites, function(customSite){
-                    $scope.customizedSites[customSite.site] = customSite;
-                });
-            }, function(errMsg){
-                $scope.errorMsg(errMsg);
-            })
+                // ... and the ones that are customized
+                customsiteProvider.loadCustomizedSites().then(function(customSites){
+                    $scope.customizedSites = {};
+                    _.each(customSites, function(customSite){
+                        $scope.customizedSites[customSite.site] = customSite;
+                    });
+                    $scope.sites = sites;
+                }, errFn)
+            }, errFn);
         }
     });
+
     $scope.customize = function(site) {
         if(!!$scope.customizedSites[site._id]){
             $location.path('/customSite/' + $scope.customizedSites[site._id]._id);
@@ -39,19 +31,48 @@ function($scope, $routeParams, $log, $location, auth, customsiteProvider){
             customsiteProvider.saveCustomSite({
                 type: 'customSite',
                 creationDate: Date(),
-                owner: auth.loggedInUser._id,
-                site: site._id
+                owner: $scope.auth.loggedInUser._id,
+                site: site._id,
+                symbols: []
             }).then(function(customSite){
                 $location.path('/customSite/' + customSite._id);
-            }, function(errMsg){
-                $scope.errorMsg(errMsg);
-            });
+            }, errFn);
         }
     };
 
     $scope.isCustomized = function(site){
         return !!$scope.customizedSites[site._id];
     };
+}]);
+customsite.controller('customSiteCtrl', ['$scope', '$routeParams', '$log', '$location', 'siteProvider', 'customsiteProvider',
+function($scope, $routeParams, $log, $location, siteProvider, customsiteProvider){
+
+    $scope._ = 'customSiteCtrl';
+    var errFn = function(errMsg){$scope.errorMsg($scope, errMsg);};
+
+    // Load custom site
+    $scope.$watch('auth.loggedInUser.name', function(){
+        if($scope.auth.loggedInUser.name){
+            customsiteProvider.getCustomSite($routeParams.customsiteId).then(function(customSite){
+                $scope.customSite = customSite;
+
+                customSymbolProvider.getCustomSymbols($scope.customSite.symbols).then(function(customSymbols){
+                    $scope.customSymbols = customSymbols;
+                }, errFn);
+
+                // Load base site
+                siteProvider.getSite($scope.customSite.site).then(function(site){
+                    $scope.site = site;
+
+                    // Load base symbols
+                    symbolsProvider.getSymbols($scope.site.symbols).then(function(symbols){
+                        $scope.symbols = symbols;
+                    }, errFn)
+                }, errFn);
+                $log.info('Custom site loaded');
+            }, errFn);
+        }
+    });
 }]);
 
 customsite.factory('customsiteProvider', ['db', 'auth', '$q', function(db, auth, $q){
@@ -107,9 +128,12 @@ customsite.factory('customsiteProvider', ['db', 'auth', '$q', function(db, auth,
                 deferred.reject(err.reason);
             });
             return deferred.promise;
-        },
-        isCustomized: function(site){
-
         }
     }
+}]);
+
+customsite.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/customSite', {templateUrl: 'partials/customsite.html', controller: 'customSitesCtrl'});
+    $routeProvider.when('/customSite/:customsiteId', {templateUrl: 'partials/customsite.html', controller: 'customSiteCtrl'});
+    // Custom symbol management
 }]);

@@ -132,3 +132,9 @@ function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $
     }
 
 }]);
+
+sites.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/createSite', {templateUrl: 'partials/siteform.html', controller: 'sitesCtrl'});
+    $routeProvider.when('/site/:siteId', {templateUrl: 'partials/site.html', controller: 'sitesCtrl'});
+    // Symbol management
+}]);

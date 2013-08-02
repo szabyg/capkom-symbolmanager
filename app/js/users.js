@@ -1,26 +1,9 @@
 // User management module
 var users = angular.module('Users', ['Backend']);
-users.run(['$rootScope', 'auth', 'server', function($scope, auth, server){
-    /*
-    server.session();
-    $scope.$watch('server.userCtx', function(){
-        if($scope.server.userCtx.name !== null){
-            auth.loggedInUser = $scope.server.userCtx;
-        } else {
-            auth.authenticate({
-                name: 'szaby',
-                password: 'asdf'
-            },function(){
-                $log.info('demo-logged in');
-            }, function(err){
-                $log.error('demo-login error', err);
-            });
-        }
-    });
-    */
-}]);
+
 // auth provides loggedInUser, login, logout, register.
 users.factory('auth', ['$log', 'server', 'defaultCredentials', function($log, server, defaultCredentials){
+    console.info('create auth');
     var auth = {
         authenticate: function(user, success, error){
             auth._userPromise = server.login(user.name, user.password)
@@ -107,4 +90,10 @@ users.controller('registerCtrl', ['$scope', '$location', 'auth', function($scope
         }
     }
 
+}]);
+
+angular.module('symbolmanagerApp').config(['$routeProvider', function($routeProvider) {
+    // Dashboard and authentication
+    $routeProvider.when('/register', {templateUrl: 'partials/register.html', controller: 'registerCtrl'});
+    // Site management
 }]);

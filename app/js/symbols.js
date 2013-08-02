@@ -99,3 +99,40 @@ symbols.factory('symbolProvider', ['$q', 'db', '$log', function($q, db, $log){
         }
     }
 }]);
+
+symbols.factory('customSymbolProvider', ['$q', 'db', '$log', function($q, db, $log){
+    var symbolHash = {};
+    return {
+        getCustomSymbols: function(symbolIds){
+            var res = [], i, id;
+            for(i in symbolIds){
+                id = symbolIds[i];
+                res.push(this.getSymbol(id));
+            }
+            return $q.all(res);
+        },
+        getCustomSymbol: function(id) {
+            if(!symbolHash[id]){
+                var deferred = $q.defer(), doc = db.newDoc();
+                doc.load(id).success(function(){
+                    deferred.resolve(doc);
+                }).error(function(){
+                        deferred.reject({reason: "Couldn't load symbol."});
+                    });
+                symbolHash[id] = deferred.promise;
+            }
+            return symbolHash[id];
+        }
+    };
+}]);
+
+symbols.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.when('/site/:siteId/createSymbol', {
+        templateUrl: 'partials/symbolform.html',
+        controller: 'symbolCtrl'
+    });
+    $routeProvider.when('/site/:siteId/symbol/:symbolId', {
+        templateUrl: 'partials/symbolform.html',
+        controller: 'symbolCtrl'
+    });
+}]);
