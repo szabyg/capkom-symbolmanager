@@ -1,7 +1,9 @@
 var symbols = angular.module('Symbols', ['Backend', 'Sites', 'Utils']);
 
 symbols.controller('symbolCtrl', ['$scope', '$routeParams', '$log', '$location', 'db', 'auth', 'utils', 'siteProvider', 'symbolProvider',
-    function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, symbolProvider){
+function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, symbolProvider){
+
+    $scope._ = 'symbolCtrl';
     siteProvider.getSite($routeParams.siteId).then(function(site){
         $scope.site = site;
         // $scope.refreshSymbols();

@@ -1,0 +1,16 @@
+<h1>
+    <i class="icon-camera icon-large"></i>
+    <span data-ng-hide="customSite">Create Customized site</span>
+    <span data-ng-show="customSite">Edit Customized site {{customSite.name}}</span>
+</h1>
+
+<div class="customizable-sites" data-ng-show="sites">
+    <div class="thumbnail" data-ng-repeat="site in sites">
+        <strong>{{site.name}}</strong>
+        (go to <a href="{{site.url}}">{{site.name}}</a>)
+
+        <button class="btn" data-ng-hide="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-plus"></i> Customize</button>
+        <button class="btn" data-ng-show="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-edit"></i> Edit</button>
+
+    </div>
+</div>

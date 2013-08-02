@@ -76,6 +76,8 @@ users.factory('loggedInUser', ['auth', function(auth){
 }]);
 
 users.controller('loginCtrl', ['$scope', 'auth', function($scope, auth){
+
+    $scope._ = 'loginCtrl';
     $scope.info = $scope.error = '';
 
     $scope.login = function(user){
@@ -90,6 +92,8 @@ users.controller('loginCtrl', ['$scope', 'auth', function($scope, auth){
 
 // Controller for the register form
 users.controller('registerCtrl', ['$scope', '$location', 'auth', function($scope, $location, auth){
+
+    $scope._ = 'registerCtrl';
     $scope.register = function(user){
         if(user.password === user.repeatPassword){
             auth.register(user, function(){

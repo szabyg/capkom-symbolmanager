@@ -43,13 +43,16 @@ mainApp.config(['$routeProvider', function($routeProvider) {
         controller: 'symbolCtrl'
     });
 
-    $routeProvider.when('/createCustomSite', {templateUrl: 'partials/customsiteform.html', controller: 'customSiteCtrl'});
+    $routeProvider.when('/customSite', {templateUrl: 'partials/customsite.html', controller: 'customSiteCtrl'});
+    $routeProvider.when('/customSite/:customsiteId', {templateUrl: 'partials/customsite.html', controller: 'customSiteCtrl'});
     // Custom symbol management
 }]);
 
 // Initialize global scope
-mainApp.controller('mainCtrl', ['$scope', '$location', '$timeout', 'cornercouch', 'auth', 'server', 'db',
-function($scope, $location, $timeout, cornercouch, auth, server, db){
+mainApp.controller('mainCtrl', ['$scope', '$location', '$timeout', '$log', 'cornercouch', 'auth', 'server', 'db',
+function($scope, $location, $timeout, $log, cornercouch, auth, server, db){
+
+    $scope._ = 'mainCtrl';
     $scope.info = $scope.error = '';
     $scope.server = server;
         $scope.db = db;
@@ -69,6 +72,11 @@ function($scope, $location, $timeout, cornercouch, auth, server, db){
 
     var errorTimeout;
       $scope.errorMsg = function(scope, msg){
+          if(typeof scope === 'string'){
+              $scope.errorMsg($scope, 'errorMsg needs $scope as first parameter!');
+              $log.error('errorMsg needs $scope as first parameter!');
+              return;
+          }
           while(!scope.hasOwnProperty('error') && scope.$parent){
               scope = scope.$parent;
           }
@@ -86,6 +94,11 @@ function($scope, $location, $timeout, cornercouch, auth, server, db){
       }
       var infoTimeout;
       $scope.infoMsg = function(scope, msg){
+          if(typeof scope === 'string'){
+              $scope.errorMsg($scope, 'infoMsg needs $scope as first parameter!');
+              $log.error('infoMsg needs $scope as first parameter!');
+              return;
+          }
           while(!scope.hasOwnProperty('info') && scope.$parent){
               scope = scope.$parent;
           }

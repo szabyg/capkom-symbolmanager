@@ -60,9 +60,10 @@ sites.factory('siteProvider', ['$q', 'db', 'auth', function($q, db, auth){
 //
 //}]);
 
-sites.controller('sitesCtrl',
-    ['$scope', 'siteProvider', 'symbolProvider', '$location', '$routeParams', 'utils', '$log',
-        function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $log){
+sites.controller('sitesCtrl', ['$scope', 'siteProvider', 'symbolProvider', '$location', '$routeParams', 'utils', '$log',
+function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $log){
+
+    $scope._ = 'sitesCtrl';
     $scope.newSite = siteProvider.createSite();
 
     if($routeParams.siteId){
