@@ -31,7 +31,7 @@ backend.factory('db', ['$q', 'server', function($q, server){
             doc.load(docId).success(function(){
                 deferred.resolve(doc);
             }).error(function(err){
-                deferred.reject(err.reason);
+                deferred.reject('Not found');
             });
             return docPromises[docId];
         }

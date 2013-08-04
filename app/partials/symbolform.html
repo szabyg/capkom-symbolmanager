@@ -13,6 +13,17 @@
             <td>Symbol description:</td>
             <td><input type="text" data-ng-model="symbol.description"/></td>
         </tr>
+        <tr>
+            <td>Symbol upload:</td>
+            <td>
+                <img data-ng-show="symbol.file" data-ng-src="{{symbol.fileUri || fileUri(db, symbol, symbol.file)}}"/>
+                <input type="file" accept="image/*" image="file1"/>
+                <img ng-show="file1" ng-src="{{file1.url}}" type="{{file1.file.type}}" />
+                <button class="btn btn-mini btn-danger" data-ng-click="detachFile()">
+                    <i class="icon-trash"></i>
+                </button>
+            </td>
+        </tr>
     </table>
     <button type="submit" class="btn btn-primary">
         <span data-ng-show="symbol._id"><i class="icon-save"></i> Save</span>

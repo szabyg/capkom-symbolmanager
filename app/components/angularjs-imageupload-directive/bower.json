@@ -1,0 +1,24 @@
+{
+  "name": "angularjs-imageupload-directive",
+  "description": "imageupload Directive for AngularJS",
+  "version": "0.0.0",
+  "main": "public/javascripts/imageupload.js",
+  "ignore": [
+    "**/.*",
+    "app.js",
+    "demo.html",
+    "package.json"
+  ],
+  "dependencies": {
+    "angularjs-unstable": "~1.1.4"
+  },
+  "gitHead": "140e569be3ff005f44dc670ef0263a72e5f8ac12",
+  "readme": "Demo AngularJS imageupload Directive\n===============================\n\n## Description\n\nimageupload Directive for [AngularJS](http://angularjs.org/)\n\nheavly inspired from [http://www.rubydesigner.com/blog/resizing-images-before-upload-using-html5-canvas](http://www.rubydesigner.com/blog/resizing-images-before-upload-using-html5-canvas).\n\n\n## Usage\n\n### Single image \n\n```html\n<input type=\"file\" accept=\"image/*\" image=\"image\"/>\n<img ng-show=\"image\" ng-src=\"{{image.url}}\" type=\"{{image.file.type}}\" />\n```\n\nThe image object has the following properties:\n\n- file\n- url\n- dataURL\n\n### Single image with resizing\n\n```html\n<input type=\"file\" accept=\"image/*\" image=\"image2\"\n    resize-max-height=\"300\"\n    resize-max-width=\"250\"\n    resize-quality=\"0.7\" />\nOriginal <img ng-show=\"image2\" ng-src=\"{{image2.url}}\" type=\"{{image2.file.type}}\" />\nResized <img ng-show=\"image2\" ng-src=\"{{image2.resized.dataURL}}\" />\n```\n\nThe image object has the following properties:\n\n- file\n- url\n- dataURL\n- resized\n    - dataURL\n    - type\n\n### Multiple images with resizing\n\n```html\n<input type=\"file\" accept=\"image/*\" multiple\n    image=\"images\"\n    resize-max-height=\"300\"\n    resize-max-width=\"250\"\n    resize-quality=\"0.7\" />\nOriginals <img ng-repeat=\"img in images\" ng-src=\"{{img.url}}\" type=\"{{img.file.type}}\" />\nResized <img ng-repeat=\"img in images\" ng-src=\"{{img.resized.dataURL}}\" />\n```\n\nWhen used with multiple the image object is always an array of objects with the following properties:\n\n- file\n- url\n- dataURL\n- resized\n    - dataURL\n    - type\n\nSee [demo.html](demo.html) for more concrete examples.\n\n### Optional Parameter: \n\n- resize-quality (default is 0.7)\n- resize-type (default is 'image/jpg')\n- resize-max-height (default is 300)\n- resize-max-width (default is 250)\n\n\n## Features\n\n- Upload Image with FileReader\n- Resize Image via canvas\n- Send Image Data URL (base64) to whatever you want.\n\n## How to run the Demo?\n\n```Shell\ngit clone https://github.com/Mischi/angularjs-imageupload-directive.git\ncd angularjs-imageupload-directive\nnpm install\n\nnode app.js\nopen http://localhost:8080\n```\n\n## Depends on\n\n- angular-1.1.4\n\n## Tested in following browsers:\n\nTestimage: 4320x3240 4.22 MB, Resized (70% jpg): 320x270   \n\n- Chrome 24 (Windows 8), Size: 9.3 KB\n- Chrome Canary 27 (Windows 8), Size: 9.3 KB\n- Firefox 18 (Windows 8), Size: 23.5 KB\n- Internet Explorer 10 (Windows 8), Size: 9.06 KB\n\n## Known Issues\n\n- filesize can vary from Browser to Browser.\n\n\n## TODO's\n\n- Use NgModelController instead of image attribute\n- Create [bower](http://bower.io/) compatible repository (component.json, tags, etc.)\n- Match [angular-component-spec](https://github.com/PascalPrecht/angular-component-spec) when it becomes available\n- Clear image property when Form has been reset\n- Create Unit Tests\n",
+  "readmeFilename": "README.md",
+  "_id": "angularjs-imageupload-directive@0.0.0",
+  "commit": "140e569be3ff005f44dc670ef0263a72e5f8ac12",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Mischi/angularjs-imageupload-directive.git"
+  }
+}

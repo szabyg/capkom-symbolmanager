@@ -2,7 +2,7 @@
 
 // The symbol manager app
 var mainApp = angular.module('symbolmanagerApp',
-    ['$strap.directives', 'ui.gravatar', 'CornerCouch', 'Backend', 'Users', 'Sites', 'Symbols', 'CustomSite']);
+    ['$strap.directives', 'ui.gravatar', 'CornerCouch', 'imageupload', 'Backend', 'Users', 'Sites', 'Symbols', 'CustomSite']);
 
 mainApp.value('version', '0.2');
 
@@ -93,7 +93,15 @@ function($scope, $location, $timeout, $log, cornercouch, auth, server, db){
           } else {
               debugger;
           }
-      }
+      };
+
+    $scope.fileUri = function(db, doc, fileName){
+        if(db && doc && fileName){
+            return db.uri + '/' + doc._id + '/' + fileName;
+        } else {
+            return null;
+        }
+    }
 }]);
 mainApp.directive('appVersion', ['version', function(version) {
     return function(scope, elm, attrs) {

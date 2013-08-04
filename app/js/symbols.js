@@ -18,10 +18,10 @@ function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, s
     };
 
     if($routeParams.symbolId) {
-        $scope.symbol = symbolProvider.getSymbol($routeParams.symbolId);
-        $scope.symbol.then(
-            function(){
-                $log.info($scope, 'symbol loaded');
+        symbolProvider.getSymbol($routeParams.symbolId).then(
+            function(symbol){
+                $scope.symbol = symbol;
+                $log.info($scope, 'symbol loaded', $scope.symbol);
             },
             function(){
                 $location.path('/site/' + $routeParams.siteId);
@@ -32,7 +32,8 @@ function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, s
         site: $routeParams.siteId
     });
     $scope.saveSymbol = function(symbol){
-        var existingSymbol = !!symbol._id;
+        var existingSymbol = !!symbol._id,
+            upload = false;
 
         if(!existingSymbol){
             $scope.newSymbol = _.extend($scope.newSymbol, symbol, {
@@ -44,6 +45,10 @@ function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, s
         } else {
             $scope.newSymbol = symbol;
         }
+        if($scope.file1.file && $scope.newSymbol.file !== $scope.file1.file.name){
+            $scope.newSymbol.file = $scope.file1.file.name;
+            upload = true;
+        }
         $scope.newSymbol.save().success(function(){
             if(!existingSymbol){
                 $scope.site.symbols.push($scope.newSymbol._id);
@@ -51,6 +56,12 @@ function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, s
                     $location.path('/site/' + $scope.site._id + '/symbol/' + $scope.newSymbol._id);
                     // $scope.refreshSymbols();
                     $scope.infoMsg($scope, 'Symbol successfully saved.');
+                })
+            }
+            if(upload){
+                $scope.newSymbol.attach($scope.file1.file).success(function(){
+                    $scope.infoMsg($scope, 'Upload worked!');
+                    symbol.file = $scope.newSymbol.file;
                 })
             }
         })
@@ -65,6 +76,15 @@ function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, s
                 });
             });
         }
+    };
+
+    $scope.detachFile = function(){
+        var fn = $scope.symbol.file;
+        delete $scope.symbol.file;
+        $scope.symbol.save().then(function(){
+            $scope.symbol.detach(fn);
+        });
+        return true;
     }
 
     $scope.editSymbol = function(symbolId){
