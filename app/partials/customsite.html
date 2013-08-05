@@ -1,3 +1,4 @@
+<div data-ng-show="debug">partials/customsite.html</div>
 <!-- customsite.html -->
 <h1>
     <i class="icon-camera icon-large"></i>
@@ -6,41 +7,39 @@
 </h1>
 
 <div class="customizable-sites" data-ng-show="sites">
-    <div class="thumbnail" data-ng-repeat="site in sites">
-        <strong>{{site.name}}</strong>
-        (go to <a href="{{site.url}}">{{site.name}}</a>)
+    <div class="media" data-ng-repeat="site in sites" data-ng-click="customize(site)">
+        <div class="pull-left">
+            <button class="btn btn-mini" data-ng-hide="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-plus"></i> Customize</button>
+            <button class="btn btn-mini" data-ng-show="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-edit"></i> Edit</button>
+        </div>
+        <div class="media-body">
+            <div class="media-heading">{{site.name}}</div>
+            (go to <a href="{{site.url}}" data-ng-click="$event.stopPropagation()">{{site.name}}</a>)
+        </div>
 
-        <button class="btn" data-ng-hide="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-plus"></i> Customize</button>
-        <button class="btn" data-ng-show="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-edit"></i> Edit</button>
 
     </div>
 </div>
 
 <div class="customizable-sites" data-ng-show="customSite">
     <h2>{{site.name}} customisation</h2>
-    TODO: use .media elements
-    <table>
-
-        <tr data-ng-repeat="symbol in symbols"
-             data-ng-class="{customized: isCustomized(symbol)}"
-             class="custom-symbol"
-                data-ng-init="customSymbol=getCustomSymbol(symbol)">
-            <td>
-                <strong>{{symbol.name}}</strong>
-                {{symbol.description}}
-            </td>
-            <td>
-                <div>
-                    <div data-ng-init="customSymbol=getCustomSymbol(symbol)" ng-scope>
-                        <button class="btn btn-link" data-ng-click="customize(symbol)">
-                            <i class="icon-edit" data-ng-show="isCustomized(symbol)"></i>
-                            <i class="icon-plus" data-ng-hide="isCustomized(symbol)"></i>
-                            Customize
-                        </button>
-
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </table>
+    <div class="media" data-ng-repeat="symbol in symbols"
+         data-ng-class="{customized: isCustomized(symbol)}"
+         class="custom-symbol"
+         data-ng-init="customSymbol=getCustomSymbol(symbol)">
+        <div class="pull-left">
+            <button class="btn btn-link" data-ng-click="customize(symbol)">
+                <i class="icon-edit" data-ng-show="isCustomized(symbol)"></i>
+                <i class="icon-plus" data-ng-hide="isCustomized(symbol)"></i>
+                Customize
+            </button>
+        </div>
+        <div class="pull-left">
+            <img class="symbol" data-ng-show="symbol.file" data-ng-src="{{symbol.fileUri || fileUri(db, symbol, symbol.file)}}"/>
+        </div>
+        <div class="media-body">
+            <div class="media-heading">{{symbol.name}}</div>
+            {{symbol.description}}
+        </div>
+    </div>
 </div>

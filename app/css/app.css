@@ -53,3 +53,13 @@ header .user {
     padding: 10px;
     border: 1px solid #ccc;
 }
+
+.media-heading {
+    font-weight: bold;
+}
+
+.sitelist img.logo,
+.siteform img.logo,
+.symbollist img.symbol {
+    max-width: 10em;
+}

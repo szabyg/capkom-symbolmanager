@@ -1,7 +1,7 @@
 var symbols = angular.module('Symbols', ['Backend', 'Sites', 'Utils']);
 
-symbols.controller('symbolCtrl', ['$scope', '$routeParams', '$log', '$location', 'db', 'auth', 'utils', 'siteProvider', 'symbolProvider',
-function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, symbolProvider){
+symbols.controller('symbolCtrl', ['$scope', '$routeParams', '$log', '$location', '$q', 'db', 'auth', 'utils', 'siteProvider', 'symbolProvider',
+function($scope, $routeParams, $log, $location, $q, db, auth, utils, siteProvider, symbolProvider){
 
     $scope._ = 'symbolCtrl';
     siteProvider.getSite($routeParams.siteId).then(function(site){
@@ -31,39 +31,54 @@ function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, s
     $scope.newSymbol = db.newDoc({
         site: $routeParams.siteId
     });
+
+    function _saveSymbolDoc(symbolDoc){
+        var deferred = $q.defer();
+        if(!symbolDoc._id){
+            symbolDoc.save().success(function(){
+                deferred.resolve(symbolDoc);
+            }).error(function(err){
+                $scope.errorMsg($scope, err.reason);
+            });
+        } else {
+            deferred.resolve();
+        }
+        return deferred.promise;
+    }
     $scope.saveSymbol = function(symbol){
         var existingSymbol = !!symbol._id,
             upload = false;
-
-        if(!existingSymbol){
-            $scope.newSymbol = _.extend($scope.newSymbol, symbol, {
-                type: 'symbol',
-                creator: $scope.auth.loggedInUser.name,
-                creationDate: Date()
-            });
-            $scope.site.load();
-        } else {
-            $scope.newSymbol = symbol;
-        }
-        if($scope.file1.file && $scope.newSymbol.file !== $scope.file1.file.name){
-            $scope.newSymbol.file = $scope.file1.file.name;
+        var newSymbol = _.extend($scope.newSymbol, symbol, {
+            type: 'symbol',
+            creator: $scope.auth.loggedInUser.name,
+            creationDate: Date()
+        });
+        if($scope.file1 && $scope.file1.file && $scope.newSymbol.file !== $scope.file1.file.name){
+            newSymbol.file = $scope.file1.file.name;
             upload = true;
-        }
-        $scope.newSymbol.save().success(function(){
-            if(!existingSymbol){
-                $scope.site.symbols.push($scope.newSymbol._id);
-                $scope.site.save().success(function(){
-                    $location.path('/site/' + $scope.site._id + '/symbol/' + $scope.newSymbol._id);
-                    // $scope.refreshSymbols();
-                    $scope.infoMsg($scope, 'Symbol successfully saved.');
-                })
-            }
+        };
+        _saveSymbolDoc(newSymbol).then(function(newSymbol){
+            var attachmentDone = $q.defer();
             if(upload){
                 $scope.newSymbol.attach($scope.file1.file).success(function(){
                     $scope.infoMsg($scope, 'Upload worked!');
                     symbol.file = $scope.newSymbol.file;
+                    attachmentDone.resolve();
                 })
+            } else {
+                attachmentDone.resolve();
             }
+
+            attachmentDone.promise.then(function(){
+                symbol = $scope.newSymbol;
+                $scope.site.load().success(function(){
+                    $scope.site.symbols.push($scope.newSymbol._id);
+                    $scope.site.save().success(function(){
+                        $location.path('/site/' + $scope.site._id + '/symbol/' + $scope.newSymbol._id);
+                        $scope.infoMsg($scope, 'Symbol successfully saved.');
+                    })
+                })
+            })
         })
     };
     $scope.delete = function(symbol){
@@ -72,7 +87,7 @@ function($scope, $routeParams, $log, $location, db, auth, utils, siteProvider, s
             $scope.site.save().success(function(){
                 symbol.remove().success(function(){
                     $scope.infoMsg($scope, 'Symbol successfully removed');
-                    // $location.path('/site/' + $scope.site._id);
+                    $location.path('/site/' + $scope.site._id);
                 });
             });
         }

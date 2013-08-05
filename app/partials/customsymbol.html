@@ -1,11 +1,14 @@
-<div class="media">
-    <div class="media-body">
-        <h4 class="media-heading">{{origSymbol.name}}</h4>
-        {{origSymbol.description}}
+<div data-ng-show="debug">partials/customsymbol.html</div>
+<div class="customsymbol">
+    <div class="media">
+        <div class="media-body">
+            <h4 class="media-heading">{{origSymbol.name}}</h4>
+            {{origSymbol.description}}
+        </div>
     </div>
+    <hr/>
+    <button class="btn btn-danger" data-ng-click="removeCustomization()">
+        <i class="icon-trash"></i>
+        Remove Customisation
+    </button>
 </div>
-<hr/>
-<button class="btn btn-danger" data-ng-click="removeCustomization()">
-    <i class="icon-trash"></i>
-    Remove Customisation
-</button>

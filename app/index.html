@@ -29,10 +29,7 @@
         <!--<li><a href="#/view2">view2</a></li>-->
     <!--</ul>-->
 
-    <div class="row span12">
-        <div data-ng-show="error" class="alert alert-error">{{error}}</div>
-        <div data-ng-show="info" class="alert alert-success">{{info}}</div>
-    </div>
+    <div class="row span12" data-ng-include="'partials/statusmessages.html'"></div>
 
     <div class="row span12" ng-view></div>
 
@@ -64,6 +61,5 @@
 <script src="js/customsite.js"></script>
 <script src="js/symbols.js"></script>
 <script src="js/utils.js"></script>
-<script src="js/directives.js"></script>
 </body>
 </html>

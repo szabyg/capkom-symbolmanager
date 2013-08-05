@@ -1,4 +1,5 @@
-<form data-ng-submit="saveSite(site)">
+<div data-ng-show="debug">partials/siteform.html</div>
+<form class="siteform" data-ng-submit="saveSite(site)">
     <table>
         <tr>
             <td>Site name:</td>
@@ -8,9 +9,21 @@
             <td>Site address:</td>
             <td><input type="text" data-ng-model="site.url"/></td>
         </tr>
+        <tr>
+            <td>Logo address:</td>
+            <td><input type="text" data-ng-model="site.logo"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <img class="logo" data-ng-show="site.logo" data-ng-src="{{site.logo}}">
+            </td>
+        </tr>
     </table>
-    <button type="submit" class="btn btn-primary">
-        <span data-ng-show="site._id"><i class="icon-save"></i> Save</span>
-        <span data-ng-hide="site._id"><i class="icon-plus"></i> Create</span>
-    </button>
+    <div class="actions">
+        <button type="submit" class="btn btn-primary">
+            <span data-ng-show="site._id"><i class="icon-save"></i> Save</span>
+            <span data-ng-hide="site._id"><i class="icon-plus"></i> Create</span>
+        </button>
+    </div>
 </form>

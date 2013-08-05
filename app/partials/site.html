@@ -1,9 +1,14 @@
-<h1><i class="icon-bookmark icon-large"></i>
-    <span data-ng-show="site._id">Edit {{site.name}}</span>
-    <span data-ng-hide="site._id">Create new site</span>
-</h1>
+<div data-ng-show="debug">partials/site.html</div>
+<div class="site">
+    <h1><i class="icon-bookmark icon-large"></i>
+        <span data-ng-show="site._id">Edit {{site.name}}</span>
+        <span data-ng-hide="site._id">Create new site</span>
+    </h1>
 
-<div data-ng-include="'partials/siteform.html'"></div>
-<h2>Symbols:</h2>
-<div data-ng-include="'partials/symbollist.html'"></div>
-<a class="btn" href="#/site/{{site._id}}/createSymbol">Create symbol</a>
+    <div class="row span6" data-ng-include="'partials/siteform.html'"></div>
+    <div class="row span12">
+        <h2>Symbols:</h2>
+        <div data-ng-include="'partials/symbollist.html'"></div>
+        <a class="btn" href="#/site/{{site._id}}/createSymbol">Create symbol</a>
+    </div>
+</div>

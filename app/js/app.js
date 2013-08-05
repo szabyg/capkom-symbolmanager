@@ -28,17 +28,20 @@ mainApp.config(['$routeProvider', function($routeProvider) {
 }]);
 
 // Initialize global scope
-mainApp.controller('mainCtrl', ['$scope', '$location', '$timeout', '$log', 'cornercouch', 'auth', 'server', 'db',
-function($scope, $location, $timeout, $log, cornercouch, auth, server, db){
+mainApp.controller('mainCtrl', ['$scope', '$location', '$routeParams', '$timeout', '$log', 'cornercouch', 'auth', 'server', 'db',
+function($scope, $location, $routeParams, $timeout, $log, cornercouch, auth, server, db){
 
     $scope._ = 'mainCtrl';
     $scope.info = $scope.error = '';
     $scope.server = server;
-        $scope.db = db;
-        $scope.auth = auth;
+    $scope.db = db;
+    $scope.auth = auth;
 
-        // Watch logout and send route to the dashboard when user logged out.
-        var watchLogout = false;
+    $scope.debug = true;
+
+    // TODO It would be nicer to solve this with a logout event
+    // Watch logout and send route to the dashboard when user logged out.
+    var watchLogout = false;
     $scope.$watch('auth.loggedInUser.name', function(){
         if($scope.auth.loggedInUser && $scope.auth.loggedInUser.name){
             watchLogout = true;

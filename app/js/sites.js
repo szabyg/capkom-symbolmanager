@@ -74,6 +74,7 @@ function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $
     }
 
     $scope.saveSite = function(site){
+
         $scope.newSite = _.extend($scope.newSite, site, {
             creator: $scope.auth.loggedInUser.name,
             creationTime: Date()
@@ -81,7 +82,7 @@ function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $
         $log.info($scope.newSite);
         $scope.newSite.save().success(function(){
             $log.info('success');
-            utils.clean(site);
+//            utils.clean(site);
             $location.path('');
         });
     };

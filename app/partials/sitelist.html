@@ -1,19 +1,27 @@
-<div data-ng-controller="sitesCtrl">
-    <div class="media" data-ng-repeat="site in sites">
+<div data-ng-show="debug">partials/sitelist.html</div>
+<div class="sitelist" data-ng-controller="sitesCtrl">
+    <div class="media" data-ng-repeat="site in sites" data-ng-click="editSite(site)">
         <div class="pull-left">
-            <button class="btn btn-link" data-ng-click="editSite(site)">
+            <button class="btn btn-link" data-ng-click="editSite(site);$event.stopPropagation()">
                 <i class="icon-edit"></i>
                 Edit
             </button>
             <br/>
-            <button class="btn btn-link btn-danger" data-ng-click="deleteSite(site)">
+            <a class="btn btn-link" href="{{site.url}}" data-ng-click="$event.stopPropagation()">
+                <i class="icon-share"></i>
+                Visit
+            </a>
+            <br/>
+            <button class="btn btn-link btn-danger" data-ng-click="deleteSite(site); $event.stopPropagation()">
                 <i class="icon-trash"></i>
                 Delete
             </button>
         </div>
-        <div class="media-body">
+        <div class="pull-left">
+            <img class="img-responsive logo" data-ng-src="{{site.logo}}" data-ng-show="site.logo" />
+        </div>
+        <div class="media-body"">
             <div class="media-heading">{{site.name}}</div>
-            (go to <a href="{{site.url}}">{{site.name}}</a>)
         </div>
     </div>
 </div>
