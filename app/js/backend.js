@@ -5,8 +5,8 @@ var backend = angular.module('Backend', ['CornerCouch', 'Users']);
 // server is the couchdb server
 backend.factory('server', ['cornercouch', function(cornercouch){
 //    return cornercouch('http://szaby.iriscouch.com', 'JSONP');
-//    return cornercouch('/couchdb');
-    return cornercouch();
+    return cornercouch('/couchdb');
+//    return cornercouch();
 }]);
 
 // db is the database

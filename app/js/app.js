@@ -4,7 +4,7 @@
 var mainApp = angular.module('symbolmanagerApp',
     ['$strap.directives', 'ui.gravatar', 'CornerCouch', 'imageupload', 'Backend', 'Users', 'Sites', 'Symbols', 'CustomSite']);
 
-mainApp.value('version', '0.2');
+mainApp.value('version', '0.8');
 
 
 var szaby = {
