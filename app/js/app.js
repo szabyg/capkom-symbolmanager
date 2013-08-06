@@ -15,9 +15,9 @@ var szaby = {
     password: 'asdf'
 }
 
-//mainApp.value('defaultCredentials', null);
+mainApp.value('defaultCredentials', null);
 //mainApp.value('defaultCredentials', szaby);
-mainApp.value('defaultCredentials', panni);
+//mainApp.value('defaultCredentials', panni);
 
 mainApp.config(['$routeProvider', function($routeProvider) {
     // Setting up the routes

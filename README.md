@@ -1,37 +1,27 @@
 # Capkom symbol manager
 
 
+## Development
 
-## How to use angular-seed
+### Configuring for couchdb
 
-Clone the angular-seed repository and start hacking...
-
+Edit the file designDocs/.couchapprc for testing and deployment.
 
 ### Running the app during development
 
-You can pick one of these options:
+Deploy it to your local Couchdb:
 
-* serve this repository with your webserver
-* install node.js and run `scripts/web-server.js`
+cd designDocs
+couchapp push default default
 
-Then navigate your browser to `http://localhost:<port>/app/index.html` to see the app running in
+Then navigate your browser to `http://localhost:5984/csm/_design/default/index.html` to see the app running in
 your browser.
 
 
 ### Running the app in production
 
-This really depends on how complex is your app and the overall infrastructure of your system, but
-the general rule is that all you need in production are all the files under the `app/` directory.
-Everything else should be omitted.
-
-Angular apps are really just a bunch of static html, css and js files that just need to be hosted
-somewhere, where they can be accessed by browsers.
-
-If your Angular app is talking to the backend server via xhr or other means, you need to figure
-out what is the best way to host the static files to comply with the same origin policy if
-applicable. Usually this is done by hosting the files by the backend server or through
-reverse-proxying the backend server(s) and a webserver(s).
-
+cd designDocs
+couchapp push default http://username:password@example.com/dbname
 
 ## Directory Layout
 
@@ -57,6 +47,8 @@ reverse-proxying the backend server(s) and a webserver(s).
       partials/             --> angular view partials (partial html templates)
         partial1.html
         partial2.html
+
+    designDocs/         --> CouchDB design document
 
     config/karma.conf.js        --> config file for running unit tests with Karma
     config/karma-e2e.conf.js    --> config file for running e2e tests with Karma
