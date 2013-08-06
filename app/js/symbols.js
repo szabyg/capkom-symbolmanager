@@ -50,7 +50,7 @@ function($scope, $routeParams, $log, $location, $q, db, auth, utils, siteProvide
             upload = false;
         var newSymbol = _.extend($scope.newSymbol, symbol, {
             type: 'symbol',
-            creator: $scope.auth.loggedInUser,
+            creator: $scope.auth.loggedInUser._id,
             creationDate: Date()
         });
         if($scope.file1 && $scope.file1.file && $scope.newSymbol.file !== $scope.file1.file.name){
@@ -76,7 +76,7 @@ function($scope, $routeParams, $log, $location, $q, db, auth, utils, siteProvide
                         $scope.site.symbols.push($scope.newSymbol._id);
                     }
                     $scope.site.save().success(function(){
-                        $location.path('/site/' + $scope.site._id + '/symbol/' + $scope.newSymbol._id);
+                        $location.path('/site/' + $scope.site._id); // + '/symbol/' + $scope.newSymbol._id);
                         $scope.infoMsg($scope, 'Symbol successfully saved.');
                     })
                 })

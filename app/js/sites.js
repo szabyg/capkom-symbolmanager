@@ -14,7 +14,7 @@ sites.factory('siteProvider', ['$q', 'db', 'auth', function($q, db, auth){
         },
         getSites: function(){
             var deferred = $q.defer();
-            db.query('default', 'sites', {include_docs: false, key: auth.loggedInUser.name})
+            db.query('default', 'sites', {include_docs: false, key: auth.loggedInUser._id})
                 .success(function(res){
                     deferred.resolve(_.map(res.rows, function(row, idx){
                         return db.getQueryDoc(idx);
@@ -76,7 +76,7 @@ function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $
     $scope.saveSite = function(site){
 
         $scope.newSite = _.extend($scope.newSite, site, {
-            creator: $scope.auth.loggedInUser,
+            creator: $scope.auth.loggedInUser._id,
             creationTime: Date()
         });
         $log.info($scope.newSite);

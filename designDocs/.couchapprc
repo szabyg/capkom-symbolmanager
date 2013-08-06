@@ -1,0 +1,13 @@
+{
+   "env" : {
+        "testDB" : {
+            "db" : "http://localhost:5984/test-database"
+        },
+        "finalDB" : {
+            "db" : "http://username:password@anyserver.com/final-database"
+        },
+        "default" : {
+            "db" : "http://couchadmin:test1234@localhost:5984/csm"
+        }
+    }
+}

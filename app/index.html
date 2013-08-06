@@ -15,7 +15,7 @@
         <div class="logo"><a href="#"><img src="img/capkom_logo.gif" style="width: 40%;" /> </a></div>
         <div class="user">
             <div data-ng-show="auth.loggedInUser.name">
-                Welcome, <img data-gravatar-src="auth.loggedInUser.email" gravatar-size="26" /> {{auth.loggedInUser.displayname}}!
+                Welcome, <img data-gravatar-src="auth.loggedInUser.email" gravatar-size="26" title="{{auth.loggedInUser.name}}"/> {{auth.loggedInUser.displayname}}!
                 <span data-ng-click="auth.logout()">Logout</span>
             </div>
             <div data-ng-hide="auth.loggedInUser.name">

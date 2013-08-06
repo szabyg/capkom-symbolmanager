@@ -37,7 +37,7 @@ function($scope, $location, $routeParams, $timeout, $log, cornercouch, auth, ser
     $scope.db = db;
     $scope.auth = auth;
 
-    $scope.debug = true;
+    $scope.debug = false;
 
     // TODO It would be nicer to solve this with a logout event
     // Watch logout and send route to the dashboard when user logged out.
