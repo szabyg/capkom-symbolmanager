@@ -76,7 +76,7 @@ function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $
     $scope.saveSite = function(site){
 
         $scope.newSite = _.extend($scope.newSite, site, {
-            creator: $scope.auth.loggedInUser.name,
+            creator: $scope.auth.loggedInUser,
             creationTime: Date()
         });
         $log.info($scope.newSite);
@@ -121,7 +121,7 @@ function($scope, siteProvider, symbolProvider, $location, $routeParams, utils, $
 }]);
 
 sites.config(['$routeProvider', function($routeProvider) {
-    $routeProvider.when('/createSite', {templateUrl: 'partials/siteform.html', controller: 'sitesCtrl'});
+    $routeProvider.when('/createSite', {templateUrl: 'partials/forms/siteform.html', controller: 'sitesCtrl'});
     $routeProvider.when('/site/:siteId', {templateUrl: 'partials/site.html', controller: 'sitesCtrl'});
     // Symbol management
 }]);

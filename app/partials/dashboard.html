@@ -3,13 +3,13 @@
     <h1><i class="icon-home icon-large"></i> Hello {{auth.loggedInUser.displayname}}!</h1>
 
     <h2>Your customized sites:</h2>
-    <div data-ng-include="'partials/customizedsitelist.html'"></div>
+    <div data-ng-include="'partials/lists/customizedsitelist.html'"></div>
     <a class="btn" href="#/customSite"><i class="icon-plus"></i> Customize a site</a>
 
     <hr/>
 
     <h2>You are admin of the following sites in the symbolmanager:</h2>
-    <div data-ng-include="'partials/sitelist.html'"></div>
+    <div data-ng-include="'partials/lists/sitelist.html'"></div>
     <a class="btn" href="#/createSite"><i class="icon-plus"></i> Create site</a>
 
 </div>

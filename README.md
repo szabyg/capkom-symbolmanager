@@ -44,7 +44,7 @@ reverse-proxying the backend server(s) and a webserver(s).
       js/               --> javascript files
         app.js          --> application
         backend.js      --> application controllers
-        sites.js        --> application directives
+        map.js        --> application directives
         symbols.js      --> custom angular filters
         users.js        --> custom angular services
 

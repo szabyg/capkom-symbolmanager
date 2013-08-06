@@ -50,7 +50,7 @@ function($scope, $routeParams, $log, $location, $q, db, auth, utils, siteProvide
             upload = false;
         var newSymbol = _.extend($scope.newSymbol, symbol, {
             type: 'symbol',
-            creator: $scope.auth.loggedInUser.name,
+            creator: $scope.auth.loggedInUser,
             creationDate: Date()
         });
         if($scope.file1 && $scope.file1.file && $scope.newSymbol.file !== $scope.file1.file.name){
@@ -72,7 +72,9 @@ function($scope, $routeParams, $log, $location, $q, db, auth, utils, siteProvide
             attachmentDone.promise.then(function(){
                 symbol = $scope.newSymbol;
                 $scope.site.load().success(function(){
-                    $scope.site.symbols.push($scope.newSymbol._id);
+                    if($scope.site.symbols.indexOf($scope.newSymbol._id) === -1){
+                        $scope.site.symbols.push($scope.newSymbol._id);
+                    }
                     $scope.site.save().success(function(){
                         $location.path('/site/' + $scope.site._id + '/symbol/' + $scope.newSymbol._id);
                         $scope.infoMsg($scope, 'Symbol successfully saved.');
@@ -114,29 +116,9 @@ symbols.factory('symbolProvider', ['$q', 'db', '$log', function($q, db, $log){
     return {
         getSymbols: function(symbolIds){
             return db.getDocs(symbolIds);
-            /*
-            var res = [], i, id;
-            for(i in symbolIds){
-                id = symbolIds[i];
-                res.push(this.getSymbol(id));
-            }
-            return $q.all(res);
-            */
         },
         getSymbol: function(id) {
             return db.getDoc(id);
-            /*
-            if(!symbolHash[id]){
-                var deferred = $q.defer(), doc = db.newDoc();
-                doc.load(id).success(function(){
-                    deferred.resolve(doc);
-                }).error(function(){
-                        deferred.reject({reason: "Couldn't load symbol."});
-                });
-                symbolHash[id] = deferred.promise;
-            }
-            return symbolHash[id];
-            */
         }
     }
 }]);
@@ -146,29 +128,9 @@ symbols.factory('customSymbolProvider', ['$q', 'db', '$log', function($q, db, $l
     return {
         getCustomSymbols: function(symbolIds){
             return db.getDocs(symbolIds);
-            /*
-            var res = [], i, id;
-            for(i in symbolIds){
-                id = symbolIds[i];
-                res.push(this.getSymbol(id));
-            }
-            return $q.all(res);
-            */
         },
         getCustomSymbol: function(id) {
             return db.getDoc(id);
-            /*
-            if(!symbolHash[id]){
-                var deferred = $q.defer(), doc = db.newDoc();
-                doc.load(id).success(function(){
-                    deferred.resolve(doc);
-                }).error(function(){
-                        deferred.reject({reason: "Couldn't load symbol."});
-                    });
-                symbolHash[id] = deferred.promise;
-            }
-            return symbolHash[id];
-            */
         },
         saveCustomSymbol: function(customSymbol){
             return db.saveDoc(customSymbol);
@@ -178,11 +140,11 @@ symbols.factory('customSymbolProvider', ['$q', 'db', '$log', function($q, db, $l
 
 symbols.config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/site/:siteId/createSymbol', {
-        templateUrl: 'partials/symbolform.html',
+        templateUrl: 'partials/forms/symbolform.html',
         controller: 'symbolCtrl'
     });
     $routeProvider.when('/site/:siteId/symbol/:symbolId', {
-        templateUrl: 'partials/symbolform.html',
+        templateUrl: 'partials/forms/symbolform.html',
         controller: 'symbolCtrl'
     });
 }]);

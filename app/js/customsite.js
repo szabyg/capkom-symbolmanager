@@ -25,6 +25,7 @@ function($scope, $routeParams, $log, $location, customsiteProvider){
     });
 
     $scope.customize = function(site) {
+        console.trace();
         if(!!$scope.customizedSites[site._id]){
             $location.path('/customSite/' + $scope.customizedSites[site._id]._id);
         } else {
@@ -121,11 +122,23 @@ function($scope, $routeParams, $log, $location, siteProvider, symbolProvider, cu
 
     $scope.getCustomSymbol = function(symbol){
         return $scope.customSymbols[symbol._id];
-    }
+    };
+
+    $scope.removeCustomSite = function(){
+        var symbols = _.values($scope.customSymbols);
+        console.info('continue here:', symbols);
+        $scope.customSite.remove().success(function(){
+            for(var i in symbols){
+                symbols[i].remove();
+            }
+            $location.path('/customSite');
+        });
+        // If this is the right list of symbols to delete then remove them
+    };
 }]);
 
-customsite.controller('customSymbolCtrl', ['$scope', '$routeParams', '$log', '$location', 'siteProvider', 'symbolProvider', 'customsiteProvider', 'customSymbolProvider',
-function($scope, $routeParams, $log, $location, siteProvider, symbolProvider, customsiteProvider, customSymbolProvider){
+customsite.controller('customSymbolCtrl', ['$scope', '$routeParams', '$log', '$location', '$q', 'siteProvider', 'symbolProvider', 'customsiteProvider', 'customSymbolProvider',
+function($scope, $routeParams, $log, $location, $q, siteProvider, symbolProvider, customsiteProvider, customSymbolProvider){
 
     $scope._ = 'customSymbolCtrl';
     var errFn = function(errMsg){$scope.errorMsg($scope, errMsg);};
@@ -136,13 +149,76 @@ function($scope, $routeParams, $log, $location, siteProvider, symbolProvider, cu
             $scope.origSymbol = origSymbol;
         }, errFn);
         $scope.customSymbol = customSymbol;
+
+        customsiteProvider.getCustomSite(customSymbol.customSite).then(function(customSite){
+            $scope.customSite = customSite;
+            siteProvider.getSite(customSite.site).then(function(origSite){
+                $scope.origSite = origSite;
+            });
+        }, errFn);
     }, errFn);
     $scope.removeCustomization = function(){
         var customSiteId = $scope.customSymbol.customSite;
-        $scope.customSymbol.remove();
-        delete $scope.customSymbol;
-        $location.path('/customSite/' + customSiteId);
+        $scope.customSite.symbols = _.without($scope.customSite.symbols, $scope.customSymbol._id);
+        $scope.customSite.save().success(function(){
+            $scope.customSymbol.remove();
+            delete $scope.customSymbol;
+            $location.path('/customSite/' + customSiteId);
+        }).error(errFn);
     };
+
+    function _saveSymbolDoc(symbolDoc){
+        var deferred = $q.defer();
+        if(!symbolDoc._id){
+            symbolDoc.save().success(function(){
+                deferred.resolve(symbolDoc);
+            }).error(function(err){
+                    $scope.errorMsg($scope, err.reason);
+                });
+        } else {
+            deferred.resolve();
+        }
+        return deferred.promise;
+    }
+    $scope.saveCustomSymbol = function(customSymbol){
+        var upload = false;
+        if($scope.file1 && $scope.file1.file && customSymbol.file !== $scope.file1.file.name){
+            customSymbol.file = $scope.file1.file.name;
+            upload = true;
+        };
+        var attachmentDone = $q.defer();
+        customSymbol.save().then(function(){
+            if(upload){
+                customSymbol.attach($scope.file1.file).success(function(update){
+                    attachmentDone.resolve();
+                })
+            } else {
+                attachmentDone.resolve();
+            }
+        });
+        attachmentDone.promise.then(function(){
+            $scope.customSymbol = null;
+            _.defer(function(){
+                $scope.$apply(function(){
+                    $scope.customSymbol = customSymbol;
+                    $scope.infoMsg($scope, 'Custom symbol successfully saved.');
+                });
+            })
+        });
+    };
+
+    $scope.detachFile = function(){
+        var fn = $scope.customSymbol.file;
+        delete $scope.customSymbol.file;
+        $scope.customSymbol.save().then(function(){
+            $scope.customSymbol.detach(fn);
+        });
+        return true;
+    }
+
+    $scope.editCustomSite = function(){
+        $location.path('customSite/' + $scope.customSite._id);
+    }
 }]);
 
 customsite.factory('customsiteProvider', ['db', 'auth', '$q', function(db, auth, $q){

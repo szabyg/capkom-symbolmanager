@@ -1,0 +1,32 @@
+<div data-ng-show="debug">customsymbolform.html</div>
+<form class="customsymbolform" data-ng-submit="saveCustomSymbol(customSymbol)">
+    <table>
+        <tr>
+            <td>Description:</td>
+            <td><input type="text" data-ng-model="customSymbol.description"/></td>
+        </tr>
+        <tr>
+            <td>Symbol upload:</td>
+            <td>
+                <div data-ng-show="customSymbol.file">
+                    Uploaded: {{customSymbol.file}} ({{customSymbol._attachments[customSymbol.file].length}} bytes)
+                    <img data-ng-src="{{customSymbol.fileUri || fileUri(db, customSymbol, customSymbol.file)}}"/>
+                    <button class="btn btn-mini btn-danger" data-ng-click="detachFile()" data-ng-show="customSymbol.file" type="button">
+                        <i class="icon-trash"></i>
+                    </button>
+
+                </div>
+                <span data-ng-hide="customSymbol.file">
+                    <input type="file" accept="image/*" image="$parent.file1"/>
+                    <img ng-show="$parent.file1" ng-src="{{$parent.file1.url}}" type="{{$parent.file1.file.type}}" />
+                </span>
+            </td>
+        </tr>
+    </table>
+    <div class="actions">
+        <button type="submit" class="btn btn-primary">
+            <span><i class="icon-save"></i> Save</span>
+
+        </button>
+    </div>
+</form>

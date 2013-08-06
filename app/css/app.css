@@ -49,6 +49,15 @@ header .user {
     color: blue;
 }
 
+.strikethrough {
+    color: #ccc;
+    text-decoration:line-through;
+}
+
+img.overridden {
+    opacity: 0.3;
+}
+
 .media {
     padding: 10px;
     border: 1px solid #ccc;
@@ -60,6 +69,8 @@ header .user {
 
 .sitelist img.logo,
 .siteform img.logo,
+.customizedsitelist img.logo,
+.customizable-sites img.logo,
 .symbollist img.symbol {
     max-width: 10em;
 }

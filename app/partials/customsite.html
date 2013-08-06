@@ -9,15 +9,16 @@
 <div class="customizable-sites" data-ng-show="sites">
     <div class="media" data-ng-repeat="site in sites" data-ng-click="customize(site)">
         <div class="pull-left">
-            <button class="btn btn-mini" data-ng-hide="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-plus"></i> Customize</button>
-            <button class="btn btn-mini" data-ng-show="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-edit"></i> Edit</button>
+            <button class="btn btn-mini" data-ng-hide="isCustomized(site)"><i class="icon-plus"></i> Customize</button>
+            <button class="btn btn-mini" data-ng-show="isCustomized(site)"><i class="icon-edit"></i> Edit</button>
+        </div>
+        <div class="pull-left">
+            <img class="logo" data-ng-show="site.logo" data-ng-src="{{site.logo}}"/>
         </div>
         <div class="media-body">
-            <div class="media-heading">{{site.name}}</div>
-            (go to <a href="{{site.url}}" data-ng-click="$event.stopPropagation()">{{site.name}}</a>)
+            <h4 class="media-heading">{{site.name}}</h4>
+            (go to <a href="{{site.url}}" target="_blank" data-ng-click="$event.stopPropagation()">{{site.name}}</a>)
         </div>
-
-
     </div>
 </div>
 
@@ -26,9 +27,10 @@
     <div class="media" data-ng-repeat="symbol in symbols"
          data-ng-class="{customized: isCustomized(symbol)}"
          class="custom-symbol"
-         data-ng-init="customSymbol=getCustomSymbol(symbol)">
+         data-ng-init="customSymbol=getCustomSymbol(symbol)"
+         data-ng-click="customize(symbol)">
         <div class="pull-left">
-            <button class="btn btn-link" data-ng-click="customize(symbol)">
+            <button class="btn btn-link" data-ng-click="customize(symbol);$event.stopPropagation()">
                 <i class="icon-edit" data-ng-show="isCustomized(symbol)"></i>
                 <i class="icon-plus" data-ng-hide="isCustomized(symbol)"></i>
                 Customize
@@ -38,8 +40,14 @@
             <img class="symbol" data-ng-show="symbol.file" data-ng-src="{{symbol.fileUri || fileUri(db, symbol, symbol.file)}}"/>
         </div>
         <div class="media-body">
-            <div class="media-heading">{{symbol.name}}</div>
+            <h4 class="media-heading">{{symbol.name}}</h4>
             {{symbol.description}}
         </div>
+    </div>
+    <div class="controls">
+        <button class="btn" data-ng-click="removeCustomSite()">
+            <i class="icon-trash"></i>
+            Uncustomize {{site.name}}
+        </button>
     </div>
 </div>

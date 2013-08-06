@@ -1,0 +1,16 @@
+<div data-ng-show="debug">partials/lists/customizedsitelist.html</div>
+<div class="customizedsitelist" data-ng-controller="customSitesCtrl">
+    <div class="media" data-ng-repeat="site in sites" data-ng-show="isCustomized(site)" data-ng-click="customize(site)">
+        <div class="pull-left">
+            <button class="btn btn-link" data-ng-hide="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-plus"></i> Customize</button>
+            <button class="btn btn-link" data-ng-show="isCustomized(site)" data-ng-click="customize(site)"><i class="icon-edit"></i> Edit</button>
+        </div>
+        <div class="pull-left">
+            <img class="logo" data-ng-src="{{site.logo}}"/>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{site.name}}</h4>
+            (go to <a href="{{site.url}}" data-ng-click="$event.stopPropagation()">{{site.name}}</a>)
+        </div>
+    </div>
+</div>

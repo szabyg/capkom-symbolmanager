@@ -1,0 +1,14 @@
+<div data-ng-show="debug">partials/lists/symbollist.html</div>
+<div class="symbollist" data-ng-controller="symbolCtrl">
+    <div class="media" data-ng-repeat="symbol in symbols" data-ng-click="editSymbol(symbol._id)">
+        <div class="pull-left">
+            <i class="icon-edit blue" title="Edit" data-ng-click="editSymbol(symbol._id)"></i>
+            <i class="icon-trash red" title="Remove" data-ng-click="delete(symbol);$event.stopPropagation()"></i>
+            <img class="symbol" data-ng-show="symbol.file" data-ng-src="{{symbol.fileUri || fileUri(db, symbol, symbol.file)}}"/>
+        </div>
+        <div class="media-body">
+            <h4 class="media-heading">{{symbol.name}}</h4>
+            {{symbol.description}}
+        </div>
+    </div>
+</div>

@@ -1,12 +1,24 @@
 <div data-ng-show="debug">partials/customsymbol.html</div>
+<h1>You are customizing <a data-ng-click="editCustomSite()">{{origSite.name}}</a></h1>
 <div class="customsymbol">
     <div class="media">
+        <div class="pull-left">
+            <img class="symbol"
+                 data-ng-class="{overridden: customSymbol.file}"
+                 data-ng-show="origSymbol.file"
+                 data-ng-src="{{origSymbol.fileUri || fileUri(db, origSymbol, origSymbol.file)}}"/>
+            <img class="symbol"
+                 data-ng-show="customSymbol.file"
+                 data-ng-src="{{customSymbol.fileUri || fileUri(db, customSymbol, customSymbol.file)}}"/>
+        </div>
         <div class="media-body">
             <h4 class="media-heading">{{origSymbol.name}}</h4>
-            {{origSymbol.description}}
+            <span data-ng-class="{strikethrough: customSymbol.description}">{{origSymbol.description}}</span>
+            <span data-ng-show="customSymbol.description">{{customSymbol.description}}</span>
         </div>
     </div>
     <hr/>
+    <div data-ng-include="'partials/forms/customsymbolform.html'"></div>
     <button class="btn btn-danger" data-ng-click="removeCustomization()">
         <i class="icon-trash"></i>
         Remove Customisation
